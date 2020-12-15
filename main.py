@@ -175,5 +175,6 @@ if __name__ == '__main__':
     # simulation_4(y_open, 1000, 30, 180, 2.5, 5)
     # simulation_2(y_open, 1000, 30, 180, 2.5, 5, 5)
     # simulation_3(y_open, 314, 30, 180, 2.5, 5)
-    os.system('python animation.py')
+    os.system('python simulation_1.py')
+    os.system('python simulation_2.py')
 

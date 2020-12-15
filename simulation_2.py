@@ -1,3 +1,5 @@
+# Simulation of constant major change in current curve
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -11,17 +13,19 @@ data.columns = ['Position', 'Opening', 'Closing', '0', '0']
 x = data['Position'].to_numpy()
 y_open = data['Opening'].to_numpy()
 y_close = data['Closing'].to_numpy()
-y_mod = modify(y_open, 40, 150, 1)
+new = modify(y_open, 30, 180, 1)
 adapted = y_open
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(14, 8))
 fig.set_tight_layout(True)
 
-line, = ax.plot(x, adapted, 'c--', linewidth=1)
-line1, = ax.plot(x, adapted, 'k-.', linewidth=0.6)
-line2, = ax.plot(x, adapted, 'r', linewidth=1)
+line, = ax.plot(x, adapted, 'c--', linewidth=1, label='Saved [EPROM]')
+line1, = ax.plot(x, adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+line2, = ax.plot(x, adapted, 'r', linewidth=1, label='New [RAM]')
 
-ax.plot(x, y_open, 'g', linewidth=1)
+ax.plot(x, y_open, 'g', linewidth=1, label='Original [EPROM]')
+plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
+plt.title('Simulation of constant major change in current curve')
 
 save = 0
 saved_in_cycle = []
@@ -30,16 +34,16 @@ saved = y_open
 
 def update(i):
     global adapted, save, saved_in_cycle, saved
-    label = 'Cycle {0} saved in cycle: {1}'.format((i + 1), saved_in_cycle)
+    label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), saved_in_cycle, save)
     line.set_ydata(saved)
     line1.set_ydata(adapted)
-    line2.set_ydata(y_mod)
+    line2.set_ydata(new)
     ax.set_xlabel(label)
-    adapted = adapt(adapted, y_mod)
+    adapted = adapt(adapted, new)
     for j in range(len(adapted)):
         difference = abs(saved[j] - adapted[j])
         threshold = (difference * 100) / saved[j]
-        if threshold > 2.5 and difference > 5:
+        if threshold > 2.5 and difference > 5:  # 2.5%; 5 - current difference
             saved = adapted
             save += 1
             saved_in_cycle.append(i)
