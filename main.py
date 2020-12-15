@@ -1,8 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.animation import FuncAnimation
 from random import randint
 import random
+import os
 
 
 def create_data(path):
@@ -172,5 +174,6 @@ if __name__ == '__main__':
     # simulation_1(y_open, 1000, 30, 180, 2.5, 5)
     # simulation_4(y_open, 1000, 30, 180, 2.5, 5)
     # simulation_2(y_open, 1000, 30, 180, 2.5, 5, 5)
-    simulation_3(y_open, 314, 30, 180, 2.5, 5)
+    # simulation_3(y_open, 314, 30, 180, 2.5, 5)
+    os.system('python animation.py')
 
