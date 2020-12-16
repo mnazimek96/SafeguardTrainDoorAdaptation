@@ -1,4 +1,4 @@
-# Simulation of constant major change in current curve
+# Slow rise and quick decrease
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,8 +13,9 @@ data.columns = ['Position', 'Opening', 'Closing', '0', '0']
 x = data['Position'].to_numpy()
 y_open = data['Opening'].to_numpy()
 y_close = data['Closing'].to_numpy()
-new = modify(y_open, 30, 180, 1)
+new = y_open
 adapted = y_open
+y_mod = modify(y_open, 30, 180, 1)
 
 fig, ax = plt.subplots(figsize=(14, 7))
 fig.set_tight_layout(True)
@@ -25,7 +26,7 @@ line2, = ax.plot(x, adapted, 'r', linewidth=1, label='New [RAM]')
 
 ax.plot(x, y_open, 'g', linewidth=1, label='Original [EPROM]')
 plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
-plt.title('Simulation of constant major change in current curve')
+plt.title('Slow rise and quick decrease')
 
 save = 0
 saved_in_cycle = []
@@ -33,13 +34,18 @@ saved = y_open
 
 
 def update(i):
-    global adapted, save, saved_in_cycle, saved
+    global adapted, save, saved_in_cycle, saved, new, y_open, y_mod
     label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), saved_in_cycle, save)
     line.set_ydata(saved)
     line1.set_ydata(adapted)
     line2.set_ydata(new)
     ax.set_xlabel(label)
-    adapted = adapt(adapted, new)
+    if i < 200:
+        adapted = adapt(adapted, new)
+        new = adapt(new, y_mod)
+    else:
+        adapted = adapt(adapted, new)
+        new = adapt(new, y_open)
     for j in range(len(adapted)):
         difference = abs(saved[j] - adapted[j])
         threshold = (difference * 100) / saved[j]
@@ -47,9 +53,9 @@ def update(i):
             saved = adapted
             save += 1
             saved_in_cycle.append(i)
-    return line, ax
+    pass
 
-
+print(len(new))
 anim = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, 1000), interval=50)
 
 plt.show()

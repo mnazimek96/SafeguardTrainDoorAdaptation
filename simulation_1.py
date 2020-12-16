@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-from main import modify, adapt
+from functions import modify, adapt
 
 path = 'data.csv'
 data = pd.read_csv(path, sep=';')
@@ -16,7 +16,7 @@ y_close = data['Closing'].to_numpy()
 new = modify(y_open, 30, 180, 0.1)
 adapted = y_open
 
-fig, ax = plt.subplots(figsize=(14, 8))
+fig, ax = plt.subplots(figsize=(14, 7))
 fig.set_tight_layout(True)
 
 line, = ax.plot(x, adapted, 'c--', linewidth=1, label='Saved [EPROM]')

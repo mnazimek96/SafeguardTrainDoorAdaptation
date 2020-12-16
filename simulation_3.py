@@ -1,4 +1,4 @@
-# Simulation of constant major change in current curve
+# Pick for x cycles and instant return to default - one time change
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ line2, = ax.plot(x, adapted, 'r', linewidth=1, label='New [RAM]')
 
 ax.plot(x, y_open, 'g', linewidth=1, label='Original [EPROM]')
 plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
-plt.title('Simulation of constant major change in current curve')
+plt.title('Pick for x cycles and instant return to default - one time change')
 
 save = 0
 saved_in_cycle = []
@@ -33,13 +33,17 @@ saved = y_open
 
 
 def update(i):
-    global adapted, save, saved_in_cycle, saved
+    global adapted, save, saved_in_cycle, saved, new, y_open
     label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), saved_in_cycle, save)
     line.set_ydata(saved)
     line1.set_ydata(adapted)
     line2.set_ydata(new)
     ax.set_xlabel(label)
-    adapted = adapt(adapted, new)
+    if i < 20:
+        adapted = adapt(adapted, new)
+    else:
+        new = y_open
+        adapted = adapt(adapted, new)
     for j in range(len(adapted)):
         difference = abs(saved[j] - adapted[j])
         threshold = (difference * 100) / saved[j]
