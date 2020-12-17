@@ -17,19 +17,6 @@ def create_data(path):
     return x, y_open, y_close
 
 
-
-
-
-def visualise(origin, mod, adapted, description):
-    plt.figure(figsize=(13, 4))
-    plt.plot(x, mod, 'r', label='Modified')
-    plt.plot(x, origin, 'g', label='Origin')
-    plt.plot(x, adapted, 'k--', label='Saved')
-    plt.title(description)
-    plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
-    plt.show()
-
-
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     os.system('python simulation_1.py')
