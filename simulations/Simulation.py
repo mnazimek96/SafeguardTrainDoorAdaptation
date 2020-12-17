@@ -2,11 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-from functions import modify, adapt
 
 
 class Simulation:
-    def __init__(self, path):
+    def __init__(self, path, start, stop, level, percent, difference):
         self.path = path
         data = pd.read_csv(path, sep=';')
         data.columns = ['Position', 'Opening', 'Closing', '0', '0']
@@ -17,6 +16,10 @@ class Simulation:
         self.save = 0
         self.saved = self.y_open
         self.saved_in_cycle = []
+        self.new = self.modify(start, stop, level)
+        self.y_mod = self.modify(start, stop, level)
+        self.percent = percent
+        self.difference = difference
 
     def modify(self, start, stop, level):
         y_new = []
@@ -77,34 +80,6 @@ class Simulation:
         return fig, ax, line, line1, line2
 
     def simulate(self, cycles):
-        title = 'Simulation of constant small change in current curve'
-        sim = Simulation('data.csv')
-        new = sim.modify(30, 180, -0.5)
-        fig, ax, line, line1, line2 = sim.prepare_sim(title)
-
         def update(i):
-            label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), self.saved_in_cycle, self.save)
-            line.set_ydata(self.saved)
-            line1.set_ydata(self.adapted)
-            line2.set_ydata(new)
-            ax.set_xlabel(label)
-            self.adapted = adapt(self.adapted, new)
-            for j in range(len(self.adapted)):
-                difference = abs(self.saved[j] - self.adapted[j])
-                threshold = (difference * 100) / self.saved[j]
-                if threshold > 2.5 and difference > 5:  # 2.5%; 5 - current difference
-                    self.saved = self.adapted
-                    self.save += 1
-                    self.saved_in_cycle.append(i)
-            return line, ax
-
-        anim = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)
-        return anim
-
-
-if __name__ == "__main__":
-    title = 'Simulation of constant small change in current curve'
-    sim = Simulation('data.csv')
-    anim = sim.simulate(1000)
-    plt.show()
-
+            pass
+        pass
