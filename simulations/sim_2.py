@@ -27,9 +27,3 @@ class Sim2(Simulation.Simulation):
 
         animation = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)
         return animation
-
-
-if __name__ == "__main__":
-    sim = Sim2('../data.csv', 30, 180, 1, percent=2.5, difference=5)
-    anim = sim.simulate(1000)
-    plt.show()

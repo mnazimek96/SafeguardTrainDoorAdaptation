@@ -4,6 +4,7 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 
 
+
 class Simulation:
     def __init__(self, path, start, stop, level, mod, percent, difference):
         self.path = path
@@ -23,6 +24,7 @@ class Simulation:
             new1 = self.modify(start, int(stop/2), level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, -level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
+            print(len(self.x))
         elif mod == '-+':
             new1 = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, level)[int(stop/2):]
@@ -30,6 +32,19 @@ class Simulation:
         elif mod == '-':
             self.new = self.modify(start, stop, -level)
             self.y_mod = self.modify(start, stop, -level)
+        elif mod == 'random':
+            pieces = []
+            N = 5
+            for i in range(N):
+                level = (np.random.random() * -3) + 1.5  # (-1.5, 1.5)
+                m = ((stop - start) / N)
+                a = int(start + ((stop - start) - ((N - i) * m)))
+                b = int(stop - ((stop - start) - ((i+1) * m)))
+                p = self.modify(a, b, level)
+                piece = p[a:b]
+                pieces = np.concatenate((pieces, piece), axis=None)
+            self.new = self.y_mod = np.concatenate((self.y_open[0:start], pieces, self.y_open[stop:]), axis=None)
+
         else:
             self.new = self.modify(start, stop, level)
             self.y_mod = self.modify(start, stop, level)
@@ -83,8 +98,11 @@ class Simulation:
     def prepare_sim(self, title):
         fig, ax = plt.subplots(figsize=(14, 7))
         fig.set_tight_layout(True)
+        ax.set_facecolor('#EEEEEEEE')
+        plt.grid(color='k', linestyle='-.', linewidth=0.4)
+        plt.ylabel('Current [mA]')
 
-        line, = ax.plot(self.x, self.adapted, 'c--', linewidth=1, label='Saved [EPROM]')
+        line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
         line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
 
