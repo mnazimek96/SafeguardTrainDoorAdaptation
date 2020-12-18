@@ -22,6 +22,7 @@ if __name__ == '__main__':
         elif choice == 'exit':
             exit = True
             print('=========================')
+            break
         else:
             print('Wrong input!')
             continue
