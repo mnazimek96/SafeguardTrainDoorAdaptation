@@ -24,7 +24,6 @@ class Simulation:
             new1 = self.modify(start, int(stop/2), level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, -level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
-            print(len(self.x))
         elif mod == '-+':
             new1 = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, level)[int(stop/2):]
