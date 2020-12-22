@@ -1,8 +1,6 @@
 from simulations import Simulation
-import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
-from layout import gui
 
 
 class Sim2(Simulation.Simulation):
@@ -24,9 +22,10 @@ class Sim2(Simulation.Simulation):
                     self.saved = self.adapted
                     self.save += 1
                     self.saved_in_cycle.append(i)
-            window["-EPROM-"].update(f'Saved in cycle: \n{self.saved_in_cycle}')
+            window["-EPROM-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
             window["-RAM-"].update(f'cycle nr.: {i}')
             return line, ax
 
-        animation = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)
+        # optional argument for FuncAnimation - frames = np.arange(0, cycles)
+        animation = FuncAnimation(fig, update, repeat=False, interval=50)
         return animation

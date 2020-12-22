@@ -4,7 +4,6 @@ from matplotlib.animation import FuncAnimation
 import numpy as np
 
 
-
 class Simulation:
     def __init__(self, path, start, stop, level, mod, percent, difference):
         self.path = path
@@ -111,7 +110,7 @@ class Simulation:
 
         return fig, ax, line, line1, line2
 
-    def simulate(self, cycles):
+    def simulate(self, cycles, window):
         def update(i):
             pass
         pass

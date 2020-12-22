@@ -5,12 +5,12 @@ def gui():
     menu = [
         [sg.Frame(layout=[
             [
-                sg.Button("1", button_color=('white', 'green')),
-                sg.Button("2", button_color=('white', 'green')),
-                sg.Button("3", button_color=('white', 'green')),
-                sg.Button("4", button_color=('white', 'green')),
-                sg.Button("5", button_color=('white', 'green')),
-                sg.Button("6", button_color=('white', 'green')),
+                sg.Button("1", button_color=('white', 'green'), size=(2, 1)),
+                sg.Button("2", button_color=('white', 'green'), size=(2, 1)),
+                sg.Button("3", button_color=('white', 'green'), size=(2, 1)),
+                sg.Button("4", button_color=('white', 'green'), size=(2, 1)),
+                sg.Button("5", button_color=('white', 'green'), size=(2, 1)),
+                sg.Button("6", button_color=('white', 'green'), size=(2, 1)),
             ]], title='Simulations', relief=sg.RELIEF_SUNKEN,
                 tooltip='Use these to set flags', background_color='grey')
         ],

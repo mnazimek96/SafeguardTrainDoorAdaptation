@@ -16,6 +16,7 @@ if __name__ == '__main__':
             sim = sim_1.Sim1(input_data, 30, 180, 1, mod='+-', percent=2.5, difference=5)
         elif event == '2':
             sim = sim_2.Sim2(input_data, 30, 180, 1, mod='+', percent=2.5, difference=5)
+            window['2'].Update(button_color=('black', 'yellow'))
         elif event == '3':
             sim = sim_3.Sim3(input_data, 30, 180, 1, mod='+', percent=2.5, difference=5)
         elif event == '4':
