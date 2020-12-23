@@ -27,5 +27,5 @@ class Sim1(Simulation.Simulation):
                 window["-RAM-"].update(f'cycle nr.: {i}')
             return line, ax
 
-        animation = FuncAnimation(fig, update, repeat=False, interval=50)
+        animation = FuncAnimation(fig, update, frames = np.arange(0, cycles),repeat=False, interval=50)
         return animation

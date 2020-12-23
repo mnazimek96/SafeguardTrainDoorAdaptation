@@ -27,5 +27,5 @@ class Sim2(Simulation.Simulation):
             return line, ax
 
         # optional argument for FuncAnimation - frames = np.arange(0, cycles)
-        animation = FuncAnimation(fig, update, repeat=False, interval=50)
+        animation = FuncAnimation(fig, update, frames = np.arange(0, cycles), repeat=False, interval=50)
         return animation
