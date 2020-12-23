@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Simulation:
-    def __init__(self, path, start, stop, level, mod, percent, difference):
+    def __init__(self, path, start, stop, level, values, percent, difference):
         self.path = path
         data = pd.read_csv(path, sep=';')
         data.columns = ['Position', 'Opening', 'Closing', '0', '0']
@@ -16,21 +16,21 @@ class Simulation:
         self.save = 0
         self.saved = self.y_open
         self.saved_in_cycle = []
-        if mod == '+':
+        if values['-MOD1-']:
             self.new = self.modify(start, stop, level)
             self.y_mod = self.modify(start, stop, level)
-        elif mod == '+-':
+        elif values['-MOD3-']:
             new1 = self.modify(start, int(stop/2), level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, -level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
-        elif mod == '-+':
+        elif values['-MOD4-']:
             new1 = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
             new2 = self.modify(int(stop/2), stop, level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
-        elif mod == '-':
+        elif values['-MOD2-']:
             self.new = self.modify(start, stop, -level)
             self.y_mod = self.modify(start, stop, -level)
-        elif mod == 'random':
+        elif values['-MOD5-']:
             pieces = []
             N = 5
             for i in range(N):
@@ -110,7 +110,9 @@ class Simulation:
 
         return fig, ax, line, line1, line2
 
+    # Tish function needs to be overwritten in child class
     def simulate(self, cycles, window):
+
         def update(i):
             pass
         pass

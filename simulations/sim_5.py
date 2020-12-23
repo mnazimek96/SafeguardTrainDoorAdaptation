@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Sim5(Simulation.Simulation):
-    def simulate(self, cycles):
+    def simulate(self, cycles, window):
         description = 'Slow rise and quick decrease'
         fig, ax, line, line1, line2 = self.prepare_sim(description)
         self.new = self.y_open
@@ -29,6 +29,8 @@ class Sim5(Simulation.Simulation):
                     self.saved = self.adapted
                     self.save += 1
                     self.saved_in_cycle.append(i)
+            window["-EPROM-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
+            window["-RAM-"].update(f'cycle nr.: {i}')
             return line, ax
 
         animation = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)

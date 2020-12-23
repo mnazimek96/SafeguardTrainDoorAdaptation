@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Sim1(Simulation.Simulation):
-    def simulate(self, cycles):
+    def simulate(self, cycles, window):
         description = 'Simulation of constant small change in current curve'
         fig, ax, line, line1, line2 = self.prepare_sim(description)
 
@@ -23,7 +23,9 @@ class Sim1(Simulation.Simulation):
                     self.saved = self.adapted
                     self.save += 1
                     self.saved_in_cycle.append(i)
+                window["-EPROM-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
+                window["-RAM-"].update(f'cycle nr.: {i}')
             return line, ax
 
-        animation = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)
+        animation = FuncAnimation(fig, update, repeat=False, interval=50)
         return animation
