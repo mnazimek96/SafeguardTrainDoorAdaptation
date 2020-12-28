@@ -37,17 +37,21 @@ def gui():
     ]
 
     memory_layout = [
-        [
-            sg.Text('EPROM', background_color='grey', size=(6, 5)),
-            sg.Text('Original: ', key='-ORIGIN-', size=(13, 5)),
-            sg.Text('Adaptation (10 cycles): ', key='-ADAPT_EPROM-', size=(13, 5)),
-            sg.Text('Saved: ', key="-SAVED-", size=(13, 5)),
+        [sg.Frame(layout=[
+            [
+                sg.Text('Original: ', key='-ORIGIN-', size=(15, 7)),
+                sg.Text('Adaptation (10 cycles): ', key='-ADAPT_EPROM-', size=(15, 7)),
+                sg.Text('Saved: ', key="-SAVED-", size=(15, 7)),
+            ]], title='EPROM', relief=sg.RELIEF_SUNKEN,
+            tooltip='Use these to set flags', background_color='grey')
         ],
-        [
-            sg.Text('RAM', background_color='grey', size=(6, 5)),
-            sg.Text('Cycle nr.: ', key="-RAM-", size=(13, 5)),
-            sg.Text('Ongoing: ', size=(13, 5)),
-            sg.Text('Adapted: ', size=(13, 5)),
+        [sg.Frame(layout=[
+            [
+                sg.Text('Cycle nr.: ', key="-RAM-", size=(15, 7)),
+                sg.Text('Ongoing: ', size=(15, 7)),
+                sg.Text('Adapted: ', size=(15, 7)),
+            ]], title='RAM', relief=sg.RELIEF_SUNKEN,
+            tooltip='Use these to set flags', background_color='grey')
         ],
     ]
 
