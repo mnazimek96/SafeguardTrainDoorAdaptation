@@ -65,6 +65,7 @@ def gui():
         ],
         [
             sg.Button("QUIT", button_color=('white', 'red')),
+            sg.Text('', size=(10, 1), background_color='grey'),  # SPACER
             sg.Button("PLAY", button_color=('white', '#74B72E'), disabled=True, key='-PLAY-'),
             sg.Button("PAUSE", button_color=('white', 'orange'), disabled=True, key='-PAUSE-'),
             sg.Button("RESET", button_color=('white', 'blue'), disabled=True, key='-RESET-')
