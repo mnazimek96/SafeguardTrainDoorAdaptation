@@ -39,11 +39,15 @@ def gui():
     memory_layout = [
         [
             sg.Text('EPROM', background_color='grey', size=(6, 5)),
-            sg.Text('Saved in cycle: ', key="-EPROM-", size=(44, 5))
+            sg.Text('Original: ', key='-ORIGIN-', size=(13, 5)),
+            sg.Text('Adaptation (10 cycles): ', key='-ADAPT_EPROM-', size=(13, 5)),
+            sg.Text('Saved: ', key="-SAVED-", size=(13, 5)),
         ],
         [
             sg.Text('RAM', background_color='grey', size=(6, 5)),
-            sg.Text('Cycle nr.: ', key="-RAM-", size=(44, 5))
+            sg.Text('Cycle nr.: ', key="-RAM-", size=(13, 5)),
+            sg.Text('Ongoing: ', size=(13, 5)),
+            sg.Text('Adapted: ', size=(13, 5)),
         ],
     ]
 
@@ -61,8 +65,9 @@ def gui():
         ],
         [
             sg.Button("QUIT", button_color=('white', 'red')),
-            sg.Button("PLAY", button_color=('white', '#74B72E')),
-            sg.Button("PAUSE", button_color=('white', 'orange'))
+            sg.Button("PLAY", button_color=('white', '#74B72E'), disabled=True, key='-PLAY-'),
+            sg.Button("PAUSE", button_color=('white', 'orange'), disabled=True, key='-PAUSE-'),
+            sg.Button("RESET", button_color=('white', 'blue'), disabled=True, key='-RESET-')
         ]
     ]
     # when you want to open this window on second screen use - location=(2100, 330)
@@ -78,6 +83,9 @@ def update_buttons(window, button):
             window[button].update(button_color=('white', '#4CBB17'))
         else:
             window[str(i)].update(button_color=('white', 'green'))
+    window['-PLAY-'].update(disabled=False)
+    window['-PAUSE-'].update(disabled=False)
+    window['-RESET-'].update(disabled=False)
     pass
 
 

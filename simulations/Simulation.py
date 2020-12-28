@@ -48,6 +48,7 @@ class Simulation:
             self.y_mod = self.modify(start, stop, level)
         self.percent = percent
         self.difference = difference
+        self.i = 0
 
     def modify(self, start, stop, level):
         y_new = []

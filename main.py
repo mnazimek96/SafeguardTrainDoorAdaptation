@@ -64,15 +64,23 @@ if __name__ == '__main__':
                              values,
                              percent=2.5,
                              difference=5)
-        elif event == 'PAUSE':
-            animation.event_source.stop()
-            continue
         elif event == 'QUIT' or event == sg.WIN_CLOSED:
             exit = True
             print('=========================')
             break
+        elif event == '-RESET-':
+            animation.event_source.start()
+            plt.close(1)
+            sim.i = 0
+            sim.adapted = sim.saved
+        elif event == '-PAUSE-':
+            animation.event_source.stop()
+            continue
+        elif event == '-PLAY-':
+            animation.event_source.start()
+            plt.close(1)
         else:
-            print('Wrong input!')
+            print(f'Wrong input! {event}')
             continue
         if not exit:
             animation = sim.simulate(1000, window)

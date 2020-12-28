@@ -11,11 +11,11 @@ class Sim5(Simulation.Simulation):
         self.new = self.y_open
 
         def update(i):
-            label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), self.saved_in_cycle, self.save)
+            # label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), self.saved_in_cycle, self.save)
             line.set_ydata(self.saved)
             line1.set_ydata(self.adapted)
             line2.set_ydata(self.new)
-            ax.set_xlabel(label)
+            ax.set_xlabel('Position')
             if i < 200:
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.new = self.adapt(self.new, self.y_mod)
@@ -29,8 +29,9 @@ class Sim5(Simulation.Simulation):
                     self.saved = self.adapted
                     self.save += 1
                     self.saved_in_cycle.append(i)
-            window["-EPROM-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
-            window["-RAM-"].update(f'cycle nr.: {i}')
+            window["-SAVED-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
+            window["-RAM-"].update(f'cycle nr.: {i+1}')
+            self.i += 1
             return line, ax
 
         animation = FuncAnimation(fig, update, repeat=False, frames=np.arange(0, cycles), interval=50)
