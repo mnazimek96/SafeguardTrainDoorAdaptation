@@ -39,7 +39,7 @@ def gui():
     memory_layout = [
         [sg.Frame(layout=[
             [
-                sg.Text('Original: ', key='-ORIGIN-', size=(15, 7)),
+                sg.Text('ORIGINAL', key='-ORIGIN-', size=(15, 7)),
                 sg.Text('Adaptation (10 cycles): ', key='-ADAPT_EPROM-', size=(15, 7)),
                 sg.Text('Saved: ', key="-SAVED-", size=(15, 7)),
             ]], title='EPROM', relief=sg.RELIEF_SUNKEN,
@@ -48,8 +48,8 @@ def gui():
         [sg.Frame(layout=[
             [
                 sg.Text('Cycle nr.: ', key="-RAM-", size=(15, 7)),
-                sg.Text('Ongoing: ', size=(15, 7)),
-                sg.Text('Adapted: ', size=(15, 7)),
+                sg.Text('Ongoing: ', key='-ONGING-', size=(15, 7)),
+                sg.Text('Adapted: ', key='-ADAPTED-', size=(15, 7)),
             ]], title='RAM', relief=sg.RELIEF_SUNKEN,
             tooltip='Use these to set flags', background_color='grey')
         ],
@@ -73,7 +73,7 @@ def gui():
             sg.Button("PLAY", button_color=('white', '#74B72E'), disabled=True, key='-PLAY-'),
             sg.Button("PAUSE", button_color=('white', 'orange'), disabled=True, key='-PAUSE-'),
             sg.Button("RESET", button_color=('white', 'blue'), disabled=True, key='-RESET-')
-        ]
+        ],
     ]
     # when you want to open this window on second screen use - location=(2100, 330)
     window = sg.Window("Memory", layout, margins=(2, 2), background_color='grey')
@@ -92,10 +92,3 @@ def update_buttons(window, button):
     window['-PAUSE-'].update(disabled=False)
     window['-RESET-'].update(disabled=False)
     pass
-
-
-def play(event, animation):
-    if event == 'PAUSE':
-        animation.event_source.stop()
-    elif event == 'PLAY':
-        animation.event_source.stop()

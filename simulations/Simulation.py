@@ -42,13 +42,14 @@ class Simulation:
                 piece = p[a:b]
                 pieces = np.concatenate((pieces, piece), axis=None)
             self.new = self.y_mod = np.concatenate((self.y_open[0:start], pieces, self.y_open[stop:]), axis=None)
-
         else:
             self.new = self.modify(start, stop, level)
             self.y_mod = self.modify(start, stop, level)
         self.percent = percent
         self.difference = difference
         self.i = 0
+        self.temp_adapt = 0
+        self.temp_save = 0
 
     def modify(self, start, stop, level):
         y_new = []
@@ -116,4 +117,5 @@ class Simulation:
 
         def update(i):
             pass
+
         pass

@@ -23,6 +23,10 @@ class Sim1(Simulation.Simulation):
                     self.saved = self.adapted
                     self.save += 1
                     self.saved_in_cycle.append(i)
+            if self.i % 10 == 0:
+                self.temp_adapt = self.adapted
+                self.temp_save += 1
+                window['-ADAPT_EPROM-'].update(f'Adaptation backup: \n{self.temp_save}')
             window["-SAVED-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
             window["-RAM-"].update(f'cycle nr.: {self.i}')
             self.i += 1
