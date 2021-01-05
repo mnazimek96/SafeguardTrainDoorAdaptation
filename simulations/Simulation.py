@@ -8,10 +8,11 @@ class Simulation:
     def __init__(self, path, start, stop, level, values, percent, difference):
         self.path = path
         data = pd.read_csv(path, sep=';')
-        data.columns = ['Position', 'Opening', 'Closing', '0', '0']
+        data.columns = ['Position', 'Opening', 'Closing', 'Thresh_O', 'Thresh_C']
         self.x = data['Position'].to_numpy()
         self.y_open = data['Opening'].to_numpy()
         self.y_close = data['Closing'].to_numpy()
+        self.thresh = data['Thresh_O'].to_numpy()
         self.adapted = self.y_open
         self.save = 0
         self.saved = self.y_open
@@ -108,6 +109,7 @@ class Simulation:
         line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
         line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
+        line3, = ax.plot(self.x, self.thresh, 'b', linewidth=1, label='Threshold')
 
         ax.plot(self.x, self.y_open, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
