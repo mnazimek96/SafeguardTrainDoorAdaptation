@@ -3,19 +3,20 @@ import matplotlib.pyplot as plt
 import PySimpleGUI as sg
 from layout.main_layout import gui, update_buttons
 from win32api import GetSystemMetrics
+from support_functions.support import update_data
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
 
+def run():
     screen_width = GetSystemMetrics(0)
     screen_height = GetSystemMetrics(1)
 
     exit = False
     window = gui()
     while True:
+        # input_data have to be checked every iteration to make plotting data more real time
         event, values = window.read()
-        input_data = 'data/data.csv'
         if event == '1':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_1.Sim1(input_data,
                              int(values['-START-']),
@@ -26,6 +27,7 @@ if __name__ == '__main__':
                              difference=5)
 
         elif event == '2':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_2.Sim2(input_data,
                              int(values['-START-']),
@@ -36,6 +38,7 @@ if __name__ == '__main__':
                              difference=5)
 
         elif event == '3':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_3.Sim3(input_data,
                              int(values['-START-']),
@@ -46,6 +49,7 @@ if __name__ == '__main__':
                              difference=5)
 
         elif event == '4':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_4.Sim4(input_data,
                              int(values['-START-']),
@@ -56,6 +60,7 @@ if __name__ == '__main__':
                              difference=5)
 
         elif event == '5':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_5.Sim5(input_data,
                              int(values['-START-']),
@@ -66,6 +71,7 @@ if __name__ == '__main__':
                              difference=5)
 
         elif event == '6':
+            input_data = update_data()
             update_buttons(window, event)
             sim = Sim_2.Sim2(input_data,
                              int(values['-START-']),
@@ -77,7 +83,7 @@ if __name__ == '__main__':
 
         elif event == 'QUIT' or event == sg.WIN_CLOSED:
             exit = True
-            print('=========================')
+            print('\nApplication stopped without any errors.\n======================================')
             break
 
         elif event == '-RESET-':
@@ -109,10 +115,11 @@ if __name__ == '__main__':
             continue
         if not exit:
             animation = sim.simulate(1000, window)
-            mng = plt.get_current_fig_manager()
-            mng.full_screen_toggle()
+            # mng = plt.get_current_fig_manager()
+            # mng.full_screen_toggle()
             plt.show()
 
 
-
-
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    run()
