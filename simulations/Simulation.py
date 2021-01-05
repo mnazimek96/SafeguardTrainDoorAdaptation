@@ -101,6 +101,7 @@ class Simulation:
         ax.set_facecolor('#EEEEEEEE')
         plt.grid(color='k', linestyle='-.', linewidth=0.4)
         plt.ylabel('Current [mA]')
+        plt.ylim(-300, 2000)
 
         line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
