@@ -96,7 +96,9 @@ class Simulation:
         return new_tab
 
     def prepare_sim(self, title):
-        fig, ax = plt.subplots(figsize=(14, 7))
+        # fig, ax = plt.subplots(figsize=(14, 7))
+        fig = plt.figure(figsize=(14, 7))
+        ax = fig.add_subplot(211)
         fig.set_tight_layout(True)
         ax.set_facecolor('#EEEEEEEE')
         plt.grid(color='k', linestyle='-.', linewidth=0.4)

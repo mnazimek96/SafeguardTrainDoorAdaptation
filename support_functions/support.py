@@ -1,6 +1,3 @@
-import os
-
-
 def update_data():
     data = 'data/current_data.csv'
     log = 'puttyLOG/putty_log.txt'
