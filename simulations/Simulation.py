@@ -21,34 +21,41 @@ class Simulation:
         self.saved_1 = self.y_close
         self.saved_in_cycle = []
         if values['-MOD1-']:
-            self.new = self.modify(start, stop, level)
-            self.y_mod = self.modify(start, stop, level)
+            self.new, self.new_c = self.modify(start, stop, level)
+            self.y_mod, self.y_mod_c = self.modify(start, stop, level)
         elif values['-MOD3-']:
-            new1 = self.modify(start, int(stop/2), level)[0:int(stop/2)]
-            new2 = self.modify(int(stop/2), stop, -level)[int(stop/2):]
+            new1, new1_c = self.modify(start, int(stop/2), level)[0:int(stop/2)]
+            new2, new2_c = self.modify(int(stop/2), stop, -level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
+            self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
         elif values['-MOD4-']:
-            new1 = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
-            new2 = self.modify(int(stop/2), stop, level)[int(stop/2):]
+            new1, new1_c = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
+            new2, new2_c = self.modify(int(stop/2), stop, level)[int(stop/2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
+            self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
         elif values['-MOD2-']:
-            self.new = self.modify(start, stop, -level)
-            self.y_mod = self.modify(start, stop, -level)
+            self.new, self.new_c = self.modify(start, stop, -level)
+            self.y_mod, self.y_mod_c = self.modify(start, stop, -level)
         elif values['-MOD5-']:
             pieces = []
+            pieces_1 = []
             N = 5
             for i in range(N):
                 level = (np.random.random() * -3) + 1.5  # (-1.5, 1.5)
                 m = ((stop - start) / N)
                 a = int(start + ((stop - start) - ((N - i) * m)))
                 b = int(stop - ((stop - start) - ((i+1) * m)))
-                p = self.modify(a, b, level)
-                piece = p[a:b]
+                o, c = self.modify(a, b, level)
+                piece = o[a:b]
                 pieces = np.concatenate((pieces, piece), axis=None)
+                piece_1 = c[a:b]
+                pieces_1 = np.concatenate((pieces_1, piece_1), axis=None)
             self.new = self.y_mod = np.concatenate((self.y_open[0:start], pieces, self.y_open[stop:]), axis=None)
+            self.new_c = self.y_mod_c = np.concatenate((self.y_close[0:start], pieces_1, self.y_close[stop:]), axis=None)
         else:
-            self.new = self.modify(start, stop, level)
-            self.y_mod = self.modify(start, stop, level)
+            self.new, self.new_c = self.modify(start, stop, level)
+            self.y_mod, self.y_mod_c = self.modify(start, stop, level)
+
         self.percent = percent
         self.difference = difference
         self.i = 0
@@ -99,8 +106,8 @@ class Simulation:
         m = len(y_new_open)
         n = len(y_new_close)
         y_open = np.concatenate((y_new_open, self.y_open[m:len(self.y_open)]), axis=None)
-        y_close = np.concatenate((y_new_close, self.y_close[m:len(self.y_close)]), axis=None)
-        return y_open
+        y_close = np.concatenate((y_new_close, self.y_close[n:len(self.y_close)]), axis=None)
+        return y_open, y_close
 
     def adapt(self, original_y, modified_y):
         count = 0
