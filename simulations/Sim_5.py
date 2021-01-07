@@ -45,7 +45,7 @@ class Sim5(Simulation.Simulation):
                         self.saved_1 = self.adapted_1
                         self.save_c += 1
                         self.saved_in_cycle_c.append(i)
-                        
+
                 window["-SAVED-"].update(f'OPEN - Saved [cycle]: \n {self.saved_in_cycle}')
                 window["-SAVED_C-"].update(f'CLOSE - Saved [cycle]: \n {self.saved_in_cycle_c}')
                 window["-RAM-"].update(f'cycle nr.: {self.i}')
