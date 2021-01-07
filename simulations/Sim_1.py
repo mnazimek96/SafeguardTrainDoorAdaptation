@@ -32,13 +32,14 @@ class Sim1(Simulation.Simulation):
                         self.saved_in_cycle.append(i)
                     if threshold_c > self.percent and difference_c > self.difference:  # 2.5%; 5 - current difference
                         self.saved_1 = self.adapted_1
-                        self.save += 1
-                        self.saved_in_cycle.append(i)
+                        self.save_c += 1
+                        self.saved_in_cycle_c.append(i)
                 if self.i % 10 == 0:
                     self.temp_adapt = self.adapted
                     self.temp_save += 1
-                    window['-ADAPT_EPROM-'].update(f'Adaptation backup: \n{self.temp_save}')
-                window["-SAVED-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
+
+                window["-SAVED-"].update(f'OPEN - Saved [cycle]: \n {self.saved_in_cycle}')
+                window["-SAVED_C-"].update(f'CLOSE - Saved [cycle]: \n {self.saved_in_cycle_c}')
                 window["-RAM-"].update(f'cycle nr.: {self.i}')
                 self.i += 1
             else:

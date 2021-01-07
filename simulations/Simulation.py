@@ -17,9 +17,11 @@ class Simulation:
         self.adapted = self.y_open
         self.adapted_1 = self.y_close
         self.save = 0
+        self.save_c = 0
         self.saved = self.y_open
         self.saved_1 = self.y_close
         self.saved_in_cycle = []
+        self.saved_in_cycle_c = []
         if values['-MOD1-']:
             self.new, self.new_c = self.modify(start, stop, level)
             self.y_mod, self.y_mod_c = self.modify(start, stop, level)

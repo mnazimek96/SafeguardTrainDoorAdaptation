@@ -35,10 +35,12 @@ class Sim4(Simulation.Simulation):
                         self.saved_in_cycle.append(i)
                     if threshold_c > self.percent and difference_c > self.difference:  # 2.5%; 5 - current difference
                         self.saved_1 = self.adapted_1
-                        self.save += 1
-                        self.saved_in_cycle.append(i)
-                window["-SAVED-"].update(f'Saved in cycle: \n {self.saved_in_cycle}')
-                window["-RAM-"].update(f'cycle nr.: {i+1}')
+                        self.save_c += 1
+                        self.saved_in_cycle_c.append(i)
+
+                window["-SAVED-"].update(f'OPEN - Saved [cycle]: \n {self.saved_in_cycle}')
+                window["-SAVED_C-"].update(f'CLOSE - Saved [cycle]: \n {self.saved_in_cycle_c}')
+                window["-RAM-"].update(f'cycle nr.: {self.i}')
                 self.i += 1
             else:
                 print('Adapted length ERROR!')

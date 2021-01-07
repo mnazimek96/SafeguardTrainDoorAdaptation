@@ -40,8 +40,8 @@ def gui():
         [sg.Frame(layout=[
             [
                 sg.Text('ORIGINAL', key='-ORIGIN-', size=(15, 7)),
-                sg.Text('Adaptation (10 cycles): ', key='-ADAPT_EPROM-', size=(15, 7)),
-                sg.Text('Saved: ', key="-SAVED-", size=(15, 7)),
+                sg.Text('Saved [CLOSE]: ', key='-SAVED_C-', size=(15, 7)),
+                sg.Text('Saved [OPEN]: ', key="-SAVED-", size=(15, 7)),
             ]], title='EPROM', relief=sg.RELIEF_SUNKEN,
             tooltip='Use these to set flags', background_color='grey')
         ],
