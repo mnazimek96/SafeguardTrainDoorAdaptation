@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial('COM3',115200, timeout=2)
+ser = serial.Serial('COM3', 115200, timeout=2)
 print(ser.name)
 while True:
     data = []

@@ -15,7 +15,7 @@ class Sim5(Simulation.Simulation):
             line.set_ydata(self.saved)
             line1.set_ydata(self.adapted)
             line2.set_ydata(self.new)
-            ax.set_xlabel('Position')
+
             if i < 200:
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.new = self.adapt(self.new, self.y_mod)

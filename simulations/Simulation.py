@@ -12,10 +12,13 @@ class Simulation:
         self.x = data['Position'].to_numpy()
         self.y_open = data['Opening'].to_numpy()
         self.y_close = data['Closing'].to_numpy()
-        self.thresh = data['Thresh_O'].to_numpy()
+        self.thresh_O = data['Thresh_O'].to_numpy()
+        self.thresh_C = data['Thresh_C'].to_numpy()
         self.adapted = self.y_open
+        self.adapted_1 = self.y_close
         self.save = 0
         self.saved = self.y_open
+        self.saved_1 = self.y_close
         self.saved_in_cycle = []
         if values['-MOD1-']:
             self.new = self.modify(start, stop, level)
@@ -53,35 +56,51 @@ class Simulation:
         self.temp_save = 0
 
     def modify(self, start, stop, level):
-        y_new = []
+        y_new_open = []
+        y_new_close = []
         iterator = 0
         if start != 0:
             for j in range(start):
-                y_new.append(self.y_open[j])
+                y_new_open.append(self.y_open[j])
+                y_new_close.append(self.y_close[j])
         for i in range(start, stop):
             if i < stop - ((stop - start) / 2):
                 if level > 0:
                     temp = self.y_open[i] + iterator
-                    y_new.append(temp)
+                    y_new_open.append(temp)
+                    temp1 = self.y_close[i] + iterator
+                    y_new_close.append(temp1)
                     iterator += level
                 else:
                     temp = self.y_open[i] - iterator
-                    y_new.append(temp)
+                    y_new_open.append(temp)
+                    temp1 = self.y_close[i] - iterator
+                    y_new_close.append(temp1)
                     iterator -= level
             else:
                 if level > 0:
                     temp = self.y_open[i] + iterator
-                    y_new.append(temp)
-                    if self.y_open[i] < y_new[i]:
+                    y_new_open.append(temp)
+                    temp1 = self.y_close[i] + iterator
+                    y_new_close.append(temp1)
+                    if self.y_open[i] < y_new_open[i]:
+                        iterator -= level / 2
+                    if self.y_close[i] < y_new_close[i]:
                         iterator -= level / 2
                 else:
                     temp = self.y_open[i] - iterator
-                    y_new.append(temp)
-                    if self.y_open[i] > y_new[i]:
+                    y_new_open.append(temp)
+                    temp1 = self.y_close[i] - iterator
+                    y_new_close.append(temp1)
+                    if self.y_open[i] > y_new_open[i]:
                         iterator += level / 2
-        m = len(y_new)
-        y = np.concatenate((y_new, self.y_open[m:len(self.y_open)]), axis=None)
-        return y
+                    if self.y_close[i] > y_new_close[i]:
+                        iterator += level / 2
+        m = len(y_new_open)
+        n = len(y_new_close)
+        y_open = np.concatenate((y_new_open, self.y_open[m:len(self.y_open)]), axis=None)
+        y_close = np.concatenate((y_new_close, self.y_close[m:len(self.y_close)]), axis=None)
+        return y_open
 
     def adapt(self, original_y, modified_y):
         count = 0
@@ -97,23 +116,41 @@ class Simulation:
         return new_tab
 
     def prepare_sim(self, title):
-        # fig, ax = plt.subplots(figsize=(14, 7))
+        # ======== OPEN ============
         fig = plt.figure(figsize=(14, 7))
         ax = fig.add_subplot(211)
         fig.set_tight_layout(True)
         ax.set_facecolor('#EEEEEEEE')
         plt.grid(color='k', linestyle='-.', linewidth=0.4)
         plt.ylabel('Current [mA]')
+        ax.set_xlabel('Position [OPEN]')
         plt.ylim(-300, 2000)
 
         line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
         line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
-        line3, = ax.plot(self.x, self.thresh, 'b', linewidth=1, label='Threshold')
+        line3, = ax.plot(self.x, self.thresh_O, 'b', linewidth=1, label='Threshold')
 
         ax.plot(self.x, self.y_open, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
         plt.title(title)
+
+        # ======= CLOSE ===========
+        ax1 = fig.add_subplot(212)
+        fig.set_tight_layout(True)
+        ax1.set_facecolor('#EEEEEEEE')
+        plt.grid(color='k', linestyle='-.', linewidth=0.4)
+        plt.ylabel('Current [mA]')
+        ax1.set_xlabel('Position [CLOSE]')
+        plt.ylim(-300, 2000)
+
+        line4, = ax1.plot(self.x, self.adapted_1, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
+        line5, = ax1.plot(self.x, self.adapted_1, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+        line6, = ax1.plot(self.x, self.adapted_1, 'r', linewidth=1, label='New [RAM]')
+        line7, = ax1.plot(self.x, self.thresh_C, 'b', linewidth=1, label='Threshold')
+
+        ax1.plot(self.x, self.y_close, 'g', linewidth=1, label='Original [EPROM]')
+        plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
 
         return fig, ax, line, line1, line2
 

@@ -1,52 +1,8 @@
-=~=~=~=~=~=~=~=~=~=~=~= PuTTY log 2021.01.05 15:38:14 =~=~=~=~=~=~=~=~=~=~=~=
-Restart I2C 
-
-DCU
-EEPROM verification passed.
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-CRC EPR: 2945F37A, DEF 2945F37A
-CRC IO EPR: 5D0E2FA4, DEF 5D0E2FA4
-DIAGM Init:	 OK 
- no boot request
-INF POWER reset
-DIAGM POST:	 OK 
-----------------------------------------------------------
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-DIPSW_CONF = 1
-DIPSWITCH = 0xFF
-LCD_CONF = 1
-DOUT_CONF = 1
-DIN_CONF  = 1
-LCD_CONF = 1
-DIN_INAKTIV _DIN --> 1
-DIN_INAKTIV _DIN --> 2
-DIN_INAKTIV _DIN --> 3
-DIN_INAKTIV _DIN --> 4
-DIN_INAKTIV _DIN --> 5
-DIN_INAKTIV _DIN --> 6
-_DIN --> 7
-zeros = 2, maxs = 0
-Current samples restored properly
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-no spd 0
-Calib done
+=~=~=~=~=~=~=~=~=~=~=~= PuTTY log 2021.01.07 09:33:25 =~=~=~=~=~=~=~=~=~=~=~=
 type 'info' to see comand list
+EE stats saved
+EE stats saved
+Bad command 
 POS	FW	RV
 1	-35	309	0	0
 7	242	315	0	0
@@ -240,3 +196,7 @@ POS	FW	RV
 max_RV=314	 on pos 1351
 max_FW=968	 on pos 134
 last_index = 189	 pos(last) = 1461
+EE stats saved
+EE stats saved
+EE stats saved
+EE stats saved

@@ -13,7 +13,7 @@ class Sim2(Simulation.Simulation):
             line.set_ydata(self.saved)
             line1.set_ydata(self.adapted)
             line2.set_ydata(self.new)
-            ax.set_xlabel('Position')
+
             self.adapted = self.adapt(self.adapted, self.new)
             for j in range(len(self.adapted)):
                 difference = abs(self.saved[j] - self.adapted[j])

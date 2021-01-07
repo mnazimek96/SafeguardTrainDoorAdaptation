@@ -9,7 +9,8 @@ from support_functions.support import update_data
 def run():
     screen_width = GetSystemMetrics(0)
     screen_height = GetSystemMetrics(1)
-
+    percent = 2.5
+    difference = 5
     exit = False
     window = gui()
     while True:
@@ -23,8 +24,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == '2':
             input_data = update_data()
@@ -34,8 +35,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == '3':
             input_data = update_data()
@@ -45,8 +46,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == '4':
             input_data = update_data()
@@ -56,8 +57,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == '5':
             input_data = update_data()
@@ -67,8 +68,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == '6':
             input_data = update_data()
@@ -78,8 +79,8 @@ def run():
                              int(values['-STOP-']),
                              float(values['-LEVEL-']),
                              values,
-                             percent=2.5,
-                             difference=5)
+                             percent,
+                             difference)
 
         elif event == 'QUIT' or event == sg.WIN_CLOSED:
             exit = True
