@@ -159,7 +159,7 @@ class Simulation:
         ax1.plot(self.x, self.y_close, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
 
-        return fig, ax, line, line1, line2
+        return fig, ax, line, line1, line2, line4, line5, line6
 
     # Tish function needs to be overwritten in child class
     def simulate(self, cycles, window):
