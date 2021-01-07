@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import PySimpleGUI as sg
 from layout.main_layout import gui, update_buttons
 from win32api import GetSystemMetrics
-from support_functions.support import update_data
+from support_functions.update_data import update_data
 
 
 def run():

@@ -2,8 +2,8 @@ import serial
 
 ser = serial.Serial('COM3', 115200, timeout=2)
 print(ser.name)
+data = []
 while True:
-    data = []
     data.append(ser.readlines())
     if not data == [[]]:
         print(data)
