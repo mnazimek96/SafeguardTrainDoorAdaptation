@@ -156,7 +156,7 @@ class Simulation:
         plt.grid(color='k', linestyle='-.', linewidth=0.4)
         plt.ylabel('Current [mA]')
         ax1.set_xlabel('Position [CLOSE]')
-        plt.ylim(-300, 2000)
+        plt.ylim(-200, 1500)
 
         line4, = ax1.plot(self.x, self.adapted_1, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line5, = ax1.plot(self.x, self.adapted_1, 'k-.', linewidth=0.6, label='Adapting [RAM]')

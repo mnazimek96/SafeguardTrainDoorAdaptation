@@ -8,13 +8,14 @@ from communication.COM_connect import start_COM
 
 input_data = 'data/new_data.csv'
 port_nr = 'COM3'
+percent = 10
+difference = 20
+
 
 def run():
-    global input_data, port_nr
+    global input_data, port_nr, percent, difference
     screen_width = GetSystemMetrics(0)
     screen_height = GetSystemMetrics(1)
-    percent = 10
-    difference = 10
     exit = False
     window = gui()
     while True:
@@ -88,7 +89,8 @@ def run():
 
         elif event == 'QUIT' or event == sg.WIN_CLOSED:
             exit = True
-            print('\nApplication stopped without any errors.\n======================================')
+            print('\nApplication stopped without any errors.'
+                  '\n======================================')
             break
 
         elif event == '-RESET-':
@@ -105,7 +107,6 @@ def run():
             # sg.SystemTray.notify('Simulation STOP', 'Press PLAY to continue',
             #                      display_duration_in_ms=1,
             #                      location=((screen_width/2) - 200, (screen_height/2) - 40))
-
             continue
 
         elif event == '-PLAY-':
@@ -120,8 +121,8 @@ def run():
             continue
         if not exit:
             animation = sim.simulate(1000, window)
-            # mng = plt.get_current_fig_manager()
-            # mng.full_screen_toggle()
+            mng = plt.get_current_fig_manager()
+            mng.full_screen_toggle()
             plt.show()
 
 
