@@ -66,6 +66,7 @@ class Simulation:
         self.percent = percent
         self.difference = difference
         self.i = 0
+        self.j = 0
         self.temp_adapt = 0
         self.temp_save = 0
 
