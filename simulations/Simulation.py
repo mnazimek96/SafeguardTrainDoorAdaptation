@@ -14,12 +14,17 @@ class Simulation:
         self.y_close = data['Closing'].to_numpy()
         self.thresh_O = data['Thresh_O'].to_numpy()
         self.thresh_C = data['Thresh_C'].to_numpy()
-        self.adapted = self.y_open
-        self.adapted_1 = self.y_close
+        first_data = pd.read_csv('data/first_cycle.csv', sep=';')
+        first_data.columns = ['Position', 'Opening', 'Closing', 'Thresh_O', 'Thresh_C']
+        self.first_x = first_data['Position'].to_numpy()
+        self.first_y_open = first_data['Opening'].to_numpy()
+        self.first_y_close = first_data['Closing'].to_numpy()
+        self.adapted = self.first_y_open
+        self.adapted_1 = self.first_y_close
         self.save = 0
         self.save_c = 0
-        self.saved = self.y_open
-        self.saved_1 = self.y_close
+        self.saved = self.first_y_open
+        self.saved_1 = self.first_y_close
         self.saved_in_cycle = []
         self.saved_in_cycle_c = []
         if values['-MOD1-']:
@@ -116,10 +121,10 @@ class Simulation:
         new_tab = []
         for item in original_y:
             if item < modified_y[count]:
-                new = ((item * 0.99) + (modified_y[count] * 0.01))
+                new = ((item * 0.98) + (modified_y[count] * 0.02))
                 new_tab.append(new)
             else:
-                new = ((item * 0.99) + (modified_y[count] * 0.01))
+                new = ((item * 0.98) + (modified_y[count] * 0.02))
                 new_tab.append(new)
             count += 1
         return new_tab
@@ -140,7 +145,7 @@ class Simulation:
         line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
         line3, = ax.plot(self.x, self.thresh_O, 'b', linewidth=1, label='Threshold')
 
-        ax.plot(self.x, self.y_open, 'g', linewidth=1, label='Original [EPROM]')
+        ax.plot(self.first_x, self.first_y_open, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
         plt.title(title)
 
@@ -158,7 +163,7 @@ class Simulation:
         line6, = ax1.plot(self.x, self.adapted_1, 'r', linewidth=1, label='New [RAM]')
         line7, = ax1.plot(self.x, self.thresh_C, 'b', linewidth=1, label='Threshold')
 
-        ax1.plot(self.x, self.y_close, 'g', linewidth=1, label='Original [EPROM]')
+        ax1.plot(self.first_x, self.first_y_close, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
 
         return fig, ax, line, line1, line2, line4, line5, line6

@@ -16,7 +16,7 @@ def gui():
         [
             sg.InputText(default_text=30, key='-START-', size=(5, 1)),
             sg.InputText(default_text=180, key='-STOP-', size=(5, 1)),
-            sg.InputText(default_text=1, key='-LEVEL-', size=(5, 1)),
+            sg.InputText(default_text=0, key='-LEVEL-', size=(5, 1)),
             sg.Radio('+', key='-MOD1-', group_id='mod', size=(1, 1), default=True, background_color='#616161'),
             sg.Radio('-', key='-MOD2-', group_id='mod', size=(1, 1), background_color='#616161'),
             sg.Radio('+-', key='-MOD3-', group_id='mod', size=(2, 1), background_color='#616161'),

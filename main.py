@@ -4,20 +4,24 @@ import PySimpleGUI as sg
 from layout.main_layout import gui, update_buttons
 from win32api import GetSystemMetrics
 from support_functions.update_data import update_data
+from communication.COM_connect import start_COM
 
+input_data = 'data/new_data.csv'
+port_nr = 'COM3'
 
 def run():
+    global input_data, port_nr
     screen_width = GetSystemMetrics(0)
     screen_height = GetSystemMetrics(1)
-    percent = 2.5
-    difference = 5
+    percent = 10
+    difference = 10
     exit = False
     window = gui()
     while True:
         # input_data have to be checked every iteration to make plotting data more real time
         event, values = window.read()
         if event == '1':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_1.Sim1(input_data,
                              int(values['-START-']),
@@ -28,7 +32,7 @@ def run():
                              difference)
 
         elif event == '2':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_2.Sim2(input_data,
                              int(values['-START-']),
@@ -39,7 +43,7 @@ def run():
                              difference)
 
         elif event == '3':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_3.Sim3(input_data,
                              int(values['-START-']),
@@ -50,7 +54,7 @@ def run():
                              difference)
 
         elif event == '4':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_4.Sim4(input_data,
                              int(values['-START-']),
@@ -61,7 +65,7 @@ def run():
                              difference)
 
         elif event == '5':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_5.Sim5(input_data,
                              int(values['-START-']),
@@ -72,7 +76,7 @@ def run():
                              difference)
 
         elif event == '6':
-            input_data = update_data()
+            start_COM(port_nr)
             update_buttons(window, event)
             sim = Sim_2.Sim2(input_data,
                              int(values['-START-']),

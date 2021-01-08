@@ -5,7 +5,8 @@ def start_COM(port):
     ser = serial.Serial(port, 115200, timeout=1)
     print('Port name: ' + ser.name)
     data = []
-    file = open('../data/new_data.csv', 'w')
+    path = 'data/new_data.csv'
+    file = open(path, 'w')
 
     data.append(ser.readlines())
     command = 'current'
@@ -22,6 +23,3 @@ def start_COM(port):
     print('Data updated')
     file.close()
     ser.close()
-
-
-start_COM('COM3')
