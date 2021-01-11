@@ -120,7 +120,7 @@ def run():
             print(f'Wrong input! {event}')
             continue
         if not exit:
-            animation = sim.simulate(1000, window)
+            animation = sim.simulate(100, window)
             mng = plt.get_current_fig_manager()
             mng.full_screen_toggle()
             plt.show()

@@ -27,12 +27,12 @@ class Sim1(Simulation.Simulation):
                     difference_c = abs(self.saved_1[j] - self.adapted_1[j])
                     threshold_c = (difference_c * 100) / self.saved_1[j]
                     # 2.5%; 5 - current difference
-                    if threshold > self.percent and difference > self.difference and self.i > 5:
+                    if threshold > self.percent and difference > self.difference and self.i > 2:
                         self.saved = self.adapted
                         self.save += 1
                         self.saved_in_cycle.append(i)
                         self.i = 0
-                    if threshold_c > self.percent and difference_c > self.difference and self.j > 5:
+                    if threshold_c > self.percent and difference_c > self.difference and self.j > 2:
                         self.saved_1 = self.adapted_1
                         self.save_c += 1
                         self.saved_in_cycle_c.append(i)
