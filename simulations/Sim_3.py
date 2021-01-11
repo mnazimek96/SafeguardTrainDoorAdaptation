@@ -22,8 +22,8 @@ class Sim3(Simulation.Simulation):
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
             else:
-                self.new = self.y_open
-                self.new_c = self.y_close
+                self.new = self.first_y_open
+                self.new_c = self.first_y_close
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
             if len(self.adapted) == len(self.adapted_1):

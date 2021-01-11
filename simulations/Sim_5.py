@@ -20,7 +20,7 @@ class Sim5(Simulation.Simulation):
             line5.set_ydata(self.adapted_1)
             line6.set_ydata(self.new_c)
 
-            if i < 200:
+            if i < 50:
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
                 self.new = self.adapt(self.new, self.y_mod)
