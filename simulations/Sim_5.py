@@ -8,8 +8,8 @@ class Sim5(Simulation.Simulation):
     def simulate(self, cycles, window):
         description = 'Slow rise and quick decrease'
         fig, ax, line, line1, line2, line4, line5, line6 = self.prepare_sim(description)
-        self.new = self.y_open
-        self.new_c = self.y_close
+        self.new = self.first_y_open
+        self.new_c = self.first_y_close
 
         def update(i):
             # label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), self.saved_in_cycle, self.save)
