@@ -57,8 +57,8 @@ class Simulation:
                 pieces = np.concatenate((pieces, piece), axis=None)
                 piece_1 = c[a:b]
                 pieces_1 = np.concatenate((pieces_1, piece_1), axis=None)
-            self.new = self.y_mod = np.concatenate((self.y_open[0:start], pieces, self.y_open[stop:]), axis=None)
-            self.new_c = self.y_mod_c = np.concatenate((self.y_close[0:start], pieces_1, self.y_close[stop:]), axis=None)
+            self.new = self.y_mod = np.concatenate((self.first_y_open[0:start], pieces, self.first_y_open[stop:]), axis=None)
+            self.new_c = self.y_mod_c = np.concatenate((self.first_y_close[0:start], pieces_1, self.first_y_close[stop:]), axis=None)
         else:
             self.new, self.new_c = self.modify(start, stop, level)
             self.y_mod, self.y_mod_c = self.modify(start, stop, level)
