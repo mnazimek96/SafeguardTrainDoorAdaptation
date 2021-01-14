@@ -22,70 +22,82 @@ def run():
         # input_data have to be checked every iteration to make plotting data more real time
         event, values = window.read()
         if event == '1':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_1.Sim1(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_1.Sim1(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == '2':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_2.Sim2(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_2.Sim2(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == '3':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_3.Sim3(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_3.Sim3(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == '4':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_4.Sim4(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_4.Sim4(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == '5':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_5.Sim5(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_5.Sim5(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == '6':
-            start_COM(port_nr)
-            update_buttons(window, event)
-            sim = Sim_2.Sim2(input_data,
-                             int(values['-START-']),
-                             int(values['-STOP-']),
-                             float(values['-LEVEL-']),
-                             values,
-                             percent,
-                             difference)
+            if start_COM(port_nr):
+                update_buttons(window, event)
+                sim = Sim_2.Sim2(input_data,
+                                 int(values['-START-']),
+                                 int(values['-STOP-']),
+                                 float(values['-LEVEL-']),
+                                 values,
+                                 percent,
+                                 difference)
+            else:
+                break
 
         elif event == 'QUIT' or event == sg.WIN_CLOSED:
             exit = True
@@ -120,7 +132,7 @@ def run():
             print(f'Wrong input! {event}')
             continue
         if not exit:
-            animation = sim.simulate(100, window)
+            animation = sim.simulate(1000, window)
             mng = plt.get_current_fig_manager()
             mng.full_screen_toggle()
             plt.show()

@@ -18,7 +18,7 @@ class Sim3(Simulation.Simulation):
             line5.set_ydata(self.adapted_1)
             line6.set_ydata(self.new_c)
 
-            if i < 20:
+            if i < 50:
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
             else:
@@ -32,19 +32,22 @@ class Sim3(Simulation.Simulation):
                     difference_c = abs(self.saved_1[j] - self.adapted_1[j])
                     threshold = (difference * 100) / self.saved[j]
                     threshold_c = (difference_c * 100) / self.saved_1[j]
-                    if threshold > self.percent and difference > self.difference:  # 2.5%; 5 - current difference
+                    if threshold > self.percent and difference > self.difference and self.i > 2:  # 2.5%; 5 - current difference
                         self.saved = self.adapted
                         self.save += 1
                         self.saved_in_cycle.append(i)
-                    if threshold_c > self.percent and difference_c > self.difference:  # 2.5%; 5 - current difference
+                        self.i = 0
+                    if threshold_c > self.percent and difference_c > self.difference and self.j > 2:  # 2.5%; 5 - current difference
                         self.saved_1 = self.adapted_1
                         self.save_c += 1
                         self.saved_in_cycle_c.append(i)
+                        self.j = 0
 
                 window["-SAVED-"].update(f'OPEN - Saved [cycle]: \n {self.saved_in_cycle}')
                 window["-SAVED_C-"].update(f'CLOSE - Saved [cycle]: \n {self.saved_in_cycle_c}')
                 window["-RAM-"].update(f'cycle nr.: {self.i}')
                 self.i += 1
+                self.j += 1
             else:
                 print('Adapted length ERROR!')
             return line, ax

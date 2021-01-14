@@ -31,13 +31,13 @@ class Simulation:
             self.new, self.new_c = self.modify(start, stop, level)
             self.y_mod, self.y_mod_c = self.modify(start, stop, level)
         elif values['-MOD3-']:
-            new1, new1_c = self.modify(start, int(stop/2), level)[0:int(stop/2)]
-            new2, new2_c = self.modify(int(stop/2), stop, -level)[int(stop/2):]
+            new1, new1_c = self.modify(start, int(stop / 2), level)[0:int(stop / 2)]
+            new2, new2_c = self.modify(int(stop / 2), stop, -level)[int(stop / 2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
             self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
         elif values['-MOD4-']:
-            new1, new1_c = self.modify(start, int(stop/2), -level)[0:int(stop/2)]
-            new2, new2_c = self.modify(int(stop/2), stop, level)[int(stop/2):]
+            new1, new1_c = self.modify(start, int(stop / 2), -level)[0:int(stop / 2)]
+            new2, new2_c = self.modify(int(stop / 2), stop, level)[int(stop / 2):]
             self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
             self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
         elif values['-MOD2-']:
@@ -51,14 +51,16 @@ class Simulation:
                 level = (np.random.random() * -3) + 1.5  # (-1.5, 1.5)
                 m = ((stop - start) / N)
                 a = int(start + ((stop - start) - ((N - i) * m)))
-                b = int(stop - ((stop - start) - ((i+1) * m)))
+                b = int(stop - ((stop - start) - ((i + 1) * m)))
                 o, c = self.modify(a, b, level)
                 piece = o[a:b]
                 pieces = np.concatenate((pieces, piece), axis=None)
                 piece_1 = c[a:b]
                 pieces_1 = np.concatenate((pieces_1, piece_1), axis=None)
-            self.new = self.y_mod = np.concatenate((self.first_y_open[0:start], pieces, self.first_y_open[stop:]), axis=None)
-            self.new_c = self.y_mod_c = np.concatenate((self.first_y_close[0:start], pieces_1, self.first_y_close[stop:]), axis=None)
+            self.new = self.y_mod = np.concatenate((self.first_y_open[0:start], pieces, self.first_y_open[stop:]),
+                                                   axis=None)
+            self.new_c = self.y_mod_c = np.concatenate(
+                (self.first_y_close[0:start], pieces_1, self.first_y_close[stop:]), axis=None)
         else:
             self.new, self.new_c = self.modify(start, stop, level)
             self.y_mod, self.y_mod_c = self.modify(start, stop, level)
@@ -70,109 +72,112 @@ class Simulation:
         self.temp_adapt = 0
         self.temp_save = 0
 
-    def modify(self, start, stop, level):
-        y_new_open = []
-        y_new_close = []
-        iterator = 0
-        if start != 0:
-            for j in range(start):
-                y_new_open.append(self.y_open[j])
-                y_new_close.append(self.y_close[j])
-        for i in range(start, stop):
-            if i < stop - ((stop - start) / 2):
-                if level > 0:
-                    temp = self.y_open[i] + iterator
-                    y_new_open.append(temp)
-                    temp1 = self.y_close[i] + iterator
-                    y_new_close.append(temp1)
-                    iterator += level
-                else:
-                    temp = self.y_open[i] - iterator
-                    y_new_open.append(temp)
-                    temp1 = self.y_close[i] - iterator
-                    y_new_close.append(temp1)
-                    iterator -= level
+
+def modify(self, start, stop, level):
+    y_new_open = []
+    y_new_close = []
+    iterator = 0
+    if start != 0:
+        for j in range(start):
+            y_new_open.append(self.y_open[j])
+            y_new_close.append(self.y_close[j])
+    for i in range(start, stop):
+        if i < stop - ((stop - start) / 2):
+            if level > 0:
+                temp = self.y_open[i] + iterator
+                y_new_open.append(temp)
+                temp1 = self.y_close[i] + iterator
+                y_new_close.append(temp1)
+                iterator += level
             else:
-                if level > 0:
-                    temp = self.y_open[i] + iterator
-                    y_new_open.append(temp)
-                    temp1 = self.y_close[i] + iterator
-                    y_new_close.append(temp1)
-                    if self.y_open[i] < y_new_open[i]:
-                        iterator -= level / 2
-                    if self.y_close[i] < y_new_close[i]:
-                        iterator -= level / 2
-                else:
-                    temp = self.y_open[i] - iterator
-                    y_new_open.append(temp)
-                    temp1 = self.y_close[i] - iterator
-                    y_new_close.append(temp1)
-                    if self.y_open[i] > y_new_open[i]:
-                        iterator += level / 2
-                    if self.y_close[i] > y_new_close[i]:
-                        iterator += level / 2
-        m = len(y_new_open)
-        n = len(y_new_close)
-        y_open = np.concatenate((y_new_open, self.y_open[m:len(self.y_open)]), axis=None)
-        y_close = np.concatenate((y_new_close, self.y_close[n:len(self.y_close)]), axis=None)
-        return y_open, y_close
-
-    def adapt(self, original_y, modified_y):
-        count = 0
-        new_tab = []
-        for item in original_y:
-            if item < modified_y[count]:
-                new = ((item * 0.98) + (modified_y[count] * 0.02))
-                new_tab.append(new)
+                temp = self.y_open[i] - iterator
+                y_new_open.append(temp)
+                temp1 = self.y_close[i] - iterator
+                y_new_close.append(temp1)
+                iterator -= level
+        else:
+            if level > 0:
+                temp = self.y_open[i] + iterator
+                y_new_open.append(temp)
+                temp1 = self.y_close[i] + iterator
+                y_new_close.append(temp1)
+                if self.y_open[i] < y_new_open[i]:
+                    iterator -= level / 2
+                if self.y_close[i] < y_new_close[i]:
+                    iterator -= level / 2
             else:
-                new = ((item * 0.98) + (modified_y[count] * 0.02))
-                new_tab.append(new)
-            count += 1
-        return new_tab
+                temp = self.y_open[i] - iterator
+                y_new_open.append(temp)
+                temp1 = self.y_close[i] - iterator
+                y_new_close.append(temp1)
+                if self.y_open[i] > y_new_open[i]:
+                    iterator += level / 2
+                if self.y_close[i] > y_new_close[i]:
+                    iterator += level / 2
+    m = len(y_new_open)
+    n = len(y_new_close)
+    y_open = np.concatenate((y_new_open, self.y_open[m:len(self.y_open)]), axis=None)
+    y_close = np.concatenate((y_new_close, self.y_close[n:len(self.y_close)]), axis=None)
+    return y_open, y_close
 
-    def prepare_sim(self, title):
-        # ======== OPEN ============
-        fig = plt.figure(figsize=(14, 7))
-        ax = fig.add_subplot(211)
-        fig.set_tight_layout(True)
-        ax.set_facecolor('#EEEEEEEE')
-        plt.grid(color='k', linestyle='-.', linewidth=0.4)
-        plt.ylabel('Current [mA]')
-        ax.set_xlabel('Position [OPEN]')
-        plt.ylim(-300, 2000)
 
-        line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
-        line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
-        line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
-        line3, = ax.plot(self.x, self.thresh_O, 'b', linewidth=1, label='Threshold')
+def adapt(self, original_y, modified_y):
+    count = 0
+    new_tab = []
+    for item in original_y:
+        if item < modified_y[count]:
+            new = ((item * 0.99) + (modified_y[count] * 0.01))
+            new_tab.append(new)
+        else:
+            new = ((item * 0.99) + (modified_y[count] * 0.01))
+            new_tab.append(new)
+        count += 1
+    return new_tab
 
-        ax.plot(self.first_x, self.first_y_open, 'g', linewidth=1, label='Original [EPROM]')
-        plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
-        plt.title(title)
 
-        # ======= CLOSE ===========
-        ax1 = fig.add_subplot(212)
-        fig.set_tight_layout(True)
-        ax1.set_facecolor('#EEEEEEEE')
-        plt.grid(color='k', linestyle='-.', linewidth=0.4)
-        plt.ylabel('Current [mA]')
-        ax1.set_xlabel('Position [CLOSE]')
-        plt.ylim(-200, 1500)
+def prepare_sim(self, title):
+    # ======== OPEN ============
+    fig = plt.figure(figsize=(14, 7))
+    ax = fig.add_subplot(211)
+    fig.set_tight_layout(True)
+    ax.set_facecolor('#EEEEEEEE')
+    plt.grid(color='k', linestyle='-.', linewidth=0.4)
+    plt.ylabel('Current [mA]')
+    ax.set_xlabel('Position [OPEN]')
+    plt.ylim(-300, 2000)
 
-        line4, = ax1.plot(self.x, self.adapted_1, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
-        line5, = ax1.plot(self.x, self.adapted_1, 'k-.', linewidth=0.6, label='Adapting [RAM]')
-        line6, = ax1.plot(self.x, self.adapted_1, 'r', linewidth=1, label='New [RAM]')
-        line7, = ax1.plot(self.x, self.thresh_C, 'b', linewidth=1, label='Threshold')
+    line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
+    line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+    line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
+    line3, = ax.plot(self.x, self.thresh_O, 'b', linewidth=1, label='Threshold')
 
-        ax1.plot(self.first_x, self.first_y_close, 'g', linewidth=1, label='Original [EPROM]')
-        plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
+    ax.plot(self.first_x, self.first_y_open, 'g', linewidth=1, label='Original [EPROM]')
+    plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
+    plt.title(title)
 
-        return fig, ax, line, line1, line2, line4, line5, line6
+    # ======= CLOSE ===========
+    ax1 = fig.add_subplot(212)
+    fig.set_tight_layout(True)
+    ax1.set_facecolor('#EEEEEEEE')
+    plt.grid(color='k', linestyle='-.', linewidth=0.4)
+    plt.ylabel('Current [mA]')
+    ax1.set_xlabel('Position [CLOSE]')
+    plt.ylim(-200, 1500)
 
-    # Tish function needs to be overwritten in child class
-    def simulate(self, cycles, window):
+    line4, = ax1.plot(self.x, self.adapted_1, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
+    line5, = ax1.plot(self.x, self.adapted_1, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+    line6, = ax1.plot(self.x, self.adapted_1, 'r', linewidth=1, label='New [RAM]')
+    line7, = ax1.plot(self.x, self.thresh_C, 'b', linewidth=1, label='Threshold')
 
-        def update(i):
-            pass
+    ax1.plot(self.first_x, self.first_y_close, 'g', linewidth=1, label='Original [EPROM]')
+    plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
 
+    return fig, ax, line, line1, line2, line4, line5, line6
+
+
+# Tish function needs to be overwritten in child class
+def simulate(self, cycles, window):
+    def update(i):
         pass
+
+    pass

@@ -40,8 +40,8 @@ def gui():
         [sg.Frame(layout=[
             [
                 sg.Text('ORIGINAL', key='-ORIGIN-', size=(15, 7)),
-                sg.Text('Saved [CLOSE]: ', key='-SAVED_C-', size=(15, 7)),
-                sg.Text('Saved [OPEN]: ', key="-SAVED-", size=(15, 7)),
+                sg.Text('Saved [CLOSE]: ', key='-SAVED_C-', size=(16, 12)),
+                sg.Text('Saved [OPEN]: ', key="-SAVED-", size=(16, 12)),
             ]], title='EPROM', relief=sg.RELIEF_SUNKEN,
             tooltip='Use these to set flags', background_color='grey')
         ],
@@ -76,7 +76,7 @@ def gui():
         ],
     ]
     # when you want to open this window on second screen use - location=(2100, 330)
-    window = sg.Window("Memory", layout, margins=(2, 2), background_color='grey')
+    window = sg.Window("Memory", layout, margins=(2, 2), background_color='grey',location=(2100, 330))
 
     return window
 
