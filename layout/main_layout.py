@@ -76,7 +76,7 @@ def gui():
         ],
     ]
     # when you want to open this window on second screen use - location=(2100, 330)
-    window = sg.Window("Memory", layout, margins=(2, 2), background_color='grey',location=(2100, 330))
+    window = sg.Window("Memory", layout, margins=(2, 2), background_color='grey', location=(2100, 330))
 
     return window
 

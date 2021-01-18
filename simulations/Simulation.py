@@ -124,10 +124,10 @@ class Simulation:
         new_tab = []
         for item in original_y:
             if item < modified_y[count]:
-                new = ((item * 0.99) + (modified_y[count] * 0.01))
+                new = ((item * 0.98) + (modified_y[count] * 0.02))
                 new_tab.append(new)
             else:
-                new = ((item * 0.99) + (modified_y[count] * 0.01))
+                new = ((item * 0.98) + (modified_y[count] * 0.02))
                 new_tab.append(new)
             count += 1
         return new_tab

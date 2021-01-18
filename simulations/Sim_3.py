@@ -18,7 +18,7 @@ class Sim3(Simulation.Simulation):
             line5.set_ydata(self.adapted_1)
             line6.set_ydata(self.new_c)
 
-            if i < 50:
+            if i < 20:
                 self.adapted = self.adapt(self.adapted, self.new)
                 self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
             else:

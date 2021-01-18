@@ -9,7 +9,7 @@ from communication.COM_connect import start_COM
 input_data = 'data/new_data.csv'
 port_nr = 'COM3'
 percent = 10
-difference = 20
+difference = 100
 
 
 def run():
