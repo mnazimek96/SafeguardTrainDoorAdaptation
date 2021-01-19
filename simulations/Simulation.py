@@ -191,17 +191,26 @@ class Simulation:
         threshold = []
         if a == 0:
             param = self.adapted
+            for i in range(int(len(param) / 3)):
+                if param[i] > max_value:
+                    max_value = param[i]
+                    max_index = i
+            for i in range(len(param)):
+                if i < max_index + 20:
+                    threshold.append(max_value + 1000)
+                else:
+                    threshold.append(param[i] + 800)
         elif a == 1:
             param = self.adapted_1
-        for i in range(int(len(param)/3)):
-            if param[i] > max_value:
-                max_value = param[i]
-                max_index = i
-        for i in range(len(param)):
-            if i < max_index + 20:
-                threshold.append(max_value + 1000)
-            else:
-                threshold.append(param[i] + 800)
+            for i in range(int(len(param) / 3), len(param)):
+                if param[i] > max_value:
+                    max_value = param[i]
+                    max_index = i
+            for i in range(len(param)):
+                if i > max_index + 20:
+                    threshold.append(max_value + 1000)
+                else:
+                    threshold.append(param[i] + 800)
 
         return threshold
 

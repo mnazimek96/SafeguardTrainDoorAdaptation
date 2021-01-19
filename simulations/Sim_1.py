@@ -31,7 +31,6 @@ class Sim1(Simulation.Simulation):
                     threshold_c = (difference_c * 100) / self.saved_1[j]
                     # 2.5%; 5 - current difference
                     if difference > thresh_o and self.i > 3:
-                        temp = self.saved
                         self.saved = self.adapted
                         self.save += 1
                         self.saved_in_cycle.append(i)
@@ -39,7 +38,6 @@ class Sim1(Simulation.Simulation):
                         self.thresh_O = self.threshold_calculation(0)
                             # [x + (self.adapted[j] - temp[j]) for x in self.thresh_O]
                     if difference_c > thresh_c and self.j > 3:
-                        temp_2 = self.saved_1
                         self.saved_1 = self.adapted_1
                         self.save_c += 1
                         self.saved_in_cycle_c.append(i)
