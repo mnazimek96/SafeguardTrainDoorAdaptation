@@ -142,7 +142,7 @@ class Simulation:
         plt.grid(color='k', linestyle='-.', linewidth=0.4)
         plt.ylabel('Current [mA]')
         ax.set_xlabel('Position [OPEN]')
-        plt.ylim(-300, 2000)
+        plt.ylim(-300, 2500)
 
         line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
         line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
@@ -170,7 +170,7 @@ class Simulation:
         ax1.plot(self.first_x, self.first_y_close, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
 
-        return fig, ax, line, line1, line2, line4, line5, line6
+        return fig, ax, line, line1, line2, line3, line4, line5, line6, line7
 
     def set_threshold(self, percent):
         high_o = high_c = low_o = low_c = 0
@@ -185,6 +185,25 @@ class Simulation:
         threshold_2 = b * (percent/100)
 
         return threshold_1, threshold_2
+
+    def threshold_calculation(self, a):
+        max_value = 0
+        threshold = []
+        if a == 0:
+            param = self.adapted
+        elif a == 1:
+            param = self.adapted_1
+        for i in range(int(len(param)/3)):
+            if param[i] > max_value:
+                max_value = param[i]
+                max_index = i
+        for i in range(len(param)):
+            if i < max_index + 20:
+                threshold.append(max_value + 1000)
+            else:
+                threshold.append(param[i] + 800)
+
+        return threshold
 
     # This function needs to be overwritten in child class
     def simulate(self, cycles, window):
