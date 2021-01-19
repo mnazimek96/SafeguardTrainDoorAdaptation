@@ -21,18 +21,19 @@ class Sim1(Simulation.Simulation):
             self.adapted = self.adapt(self.adapted, self.new)
             self.adapted_1 = self.adapt(self.adapted_1, self.new_c)
             if len(self.adapted) == len(self.adapted_1):
+                thresh_o, thresh_c = self.set_threshold(percent=12)
                 for j in range(len(self.adapted)):
                     difference = abs(self.saved[j] - self.adapted[j])
                     threshold = (difference * 100) / self.saved[j]
                     difference_c = abs(self.saved_1[j] - self.adapted_1[j])
                     threshold_c = (difference_c * 100) / self.saved_1[j]
                     # 2.5%; 5 - current difference
-                    if threshold > self.percent and difference > self.difference and self.i > 2:
+                    if difference > thresh_o and self.i > 3:
                         self.saved = self.adapted
                         self.save += 1
                         self.saved_in_cycle.append(i)
                         self.i = 0
-                    if threshold_c > self.percent and difference_c > self.difference and self.j > 2:
+                    if difference_c > thresh_c and self.j > 3:
                         self.saved_1 = self.adapted_1
                         self.save_c += 1
                         self.saved_in_cycle_c.append(i)
@@ -40,9 +41,10 @@ class Sim1(Simulation.Simulation):
 
                 window["-SAVED-"].update(f'OPEN - Saved [cycle]: \n {self.saved_in_cycle}')
                 window["-SAVED_C-"].update(f'CLOSE - Saved [cycle]: \n {self.saved_in_cycle_c}')
-                window["-RAM-"].update(f'cycle nr.: {self.i}')
+                window["-RAM-"].update(f'cycle nr.: {self.cycle}')
                 self.i += 1
                 self.j += 1
+                self.cycle += 1
             else:
                 print('Adapted length ERROR!')
             return line, ax

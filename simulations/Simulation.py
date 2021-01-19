@@ -71,6 +71,7 @@ class Simulation:
         self.j = 0
         self.temp_adapt = 0
         self.temp_save = 0
+        self.cycle = 0
 
     def modify(self, start, stop, level):
         y_new_open = []
@@ -171,7 +172,21 @@ class Simulation:
 
         return fig, ax, line, line1, line2, line4, line5, line6
 
-    # Tish function needs to be overwritten in child class
+    def set_threshold(self, percent):
+        high_o = high_c = low_o = low_c = 0
+        for i in range(len(self.y_open)):
+            high_o += self.thresh_O[i]
+            high_c += self.thresh_C[i]
+            low_o += self.saved[i]
+            low_c += self.saved_1[i]
+        a = abs((high_o / len(self.y_open)) - (low_o / len(self.y_open)))
+        b = abs((high_c / len(self.y_open)) - (low_c / len(self.y_open)))
+        threshold_1 = a * (percent/100)
+        threshold_2 = b * (percent/100)
+
+        return threshold_1, threshold_2
+
+    # This function needs to be overwritten in child class
     def simulate(self, cycles, window):
         def update(i):
             pass
