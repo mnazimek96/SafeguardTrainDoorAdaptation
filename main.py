@@ -112,7 +112,7 @@ def run():
             #                      location=((screen_width / 2) - 200, (screen_height / 2) - 40))
             plt.close(1)
             sim.i = 0
-            sim.adapted = sim.saved
+            sim.adapted_open = sim.saved_open
 
         elif event == '-PAUSE-':
             animation.event_source.stop()

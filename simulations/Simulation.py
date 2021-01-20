@@ -12,37 +12,37 @@ class Simulation:
         self.x = data['Position'].to_numpy()
         self.y_open = data['Opening'].to_numpy()
         self.y_close = data['Closing'].to_numpy()
-        self.thresh_O = data['Thresh_O'].to_numpy()
-        self.thresh_C = data['Thresh_C'].to_numpy()
+        self.thresh_open = data['Thresh_O'].to_numpy()
+        self.thresh_close = data['Thresh_C'].to_numpy()
         first_data = pd.read_csv('data/first_cycle.csv', sep=';')
         first_data.columns = ['Position', 'Opening', 'Closing', 'Thresh_O', 'Thresh_C']
         self.first_x = first_data['Position'].to_numpy()
         self.first_y_open = first_data['Opening'].to_numpy()
         self.first_y_close = first_data['Closing'].to_numpy()
-        self.adapted = self.first_y_open
-        self.adapted_1 = self.first_y_close
-        self.save = 0
-        self.save_c = 0
-        self.saved = self.first_y_open
-        self.saved_1 = self.first_y_close
-        self.saved_in_cycle = []
-        self.saved_in_cycle_c = []
+        self.adapted_open = self.first_y_open
+        self.adapted_close = self.first_y_close
+        self.save_count_open = 0
+        self.save_count_close = 0
+        self.saved_open = self.first_y_open
+        self.saved_close = self.first_y_close
+        self.saved_in_cycle_open = []
+        self.saved_in_cycle_close = []
         if values['-MOD1-']:
-            self.new, self.new_c = self.modify(start, stop, level)
-            self.y_mod, self.y_mod_c = self.modify(start, stop, level)
+            self.new_open, self.new_close = self.modify(start, stop, level)
+            self.modified_y_open, self.modified_y_close = self.modify(start, stop, level)
         elif values['-MOD3-']:
-            new1, new1_c = self.modify(start, int(stop / 2), level)[0:int(stop / 2)]
-            new2, new2_c = self.modify(int(stop / 2), stop, -level)[int(stop / 2):]
-            self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
-            self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
+            new1_open, new1_close = self.modify(start, int(stop / 2), level)[0:int(stop / 2)]
+            new2_open, new2_close = self.modify(int(stop / 2), stop, -level)[int(stop / 2):]
+            self.new_open = self.modified_y_open = np.concatenate((new1_open, new2_open), axis=None)
+            self.new_close = self.modified_y_close = np.concatenate((new1_open, new2_open), axis=None)
         elif values['-MOD4-']:
-            new1, new1_c = self.modify(start, int(stop / 2), -level)[0:int(stop / 2)]
-            new2, new2_c = self.modify(int(stop / 2), stop, level)[int(stop / 2):]
-            self.new = self.y_mod = np.concatenate((new1, new2), axis=None)
-            self.new_c = self.y_mod_c = np.concatenate((new1, new2), axis=None)
+            new1_open, new1_close = self.modify(start, int(stop / 2), -level)[0:int(stop / 2)]
+            new2_open, new2_close = self.modify(int(stop / 2), stop, level)[int(stop / 2):]
+            self.new_open = self.modified_y_open = np.concatenate((new1_open, new2_open), axis=None)
+            self.new_close = self.modified_y_close = np.concatenate((new1_open, new2_open), axis=None)
         elif values['-MOD2-']:
-            self.new, self.new_c = self.modify(start, stop, -level)
-            self.y_mod, self.y_mod_c = self.modify(start, stop, -level)
+            self.new_open, self.new_close = self.modify(start, stop, -level)
+            self.modified_y_open, self.modified_y_close = self.modify(start, stop, -level)
         elif values['-MOD5-']:
             pieces = []
             pieces_1 = []
@@ -57,13 +57,13 @@ class Simulation:
                 pieces = np.concatenate((pieces, piece), axis=None)
                 piece_1 = c[a:b]
                 pieces_1 = np.concatenate((pieces_1, piece_1), axis=None)
-            self.new = self.y_mod = np.concatenate((self.first_y_open[0:start], pieces, self.first_y_open[stop:]),
-                                                   axis=None)
-            self.new_c = self.y_mod_c = np.concatenate(
+            self.new_open = self.modified_y_open = np.concatenate((self.first_y_open[0:start], pieces, self.first_y_open[stop:]),
+                                                                  axis=None)
+            self.new_close = self.modified_y_close = np.concatenate(
                 (self.first_y_close[0:start], pieces_1, self.first_y_close[stop:]), axis=None)
         else:
-            self.new, self.new_c = self.modify(start, stop, level)
-            self.y_mod, self.y_mod_c = self.modify(start, stop, level)
+            self.new_open, self.new_close = self.modify(start, stop, level)
+            self.modified_y_open, self.modified_y_close = self.modify(start, stop, level)
 
         self.percent = percent
         self.difference = difference
@@ -71,7 +71,7 @@ class Simulation:
         self.j = 0
         self.temp_adapt = 0
         self.temp_save = 0
-        self.cycle = 0
+        self.cycle_count = 0
 
     def modify(self, start, stop, level):
         y_new_open = []
@@ -144,10 +144,10 @@ class Simulation:
         ax.set_xlabel('Position [OPEN]')
         plt.ylim(-300, 2500)
 
-        line, = ax.plot(self.x, self.adapted, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
-        line1, = ax.plot(self.x, self.adapted, 'k-.', linewidth=0.6, label='Adapting [RAM]')
-        line2, = ax.plot(self.x, self.adapted, 'r', linewidth=1, label='New [RAM]')
-        line3, = ax.plot(self.x, self.thresh_O, 'b', linewidth=1, label='Threshold')
+        line, = ax.plot(self.x, self.adapted_open, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
+        line1, = ax.plot(self.x, self.adapted_open, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+        line2, = ax.plot(self.x, self.adapted_open, 'r', linewidth=1, label='New [RAM]')
+        line3, = ax.plot(self.x, self.thresh_open, 'b', linewidth=1, label='Threshold')
 
         ax.plot(self.first_x, self.first_y_open, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
@@ -162,10 +162,10 @@ class Simulation:
         ax1.set_xlabel('Position [CLOSE]')
         plt.ylim(-200, 1500)
 
-        line4, = ax1.plot(self.x, self.adapted_1, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
-        line5, = ax1.plot(self.x, self.adapted_1, 'k-.', linewidth=0.6, label='Adapting [RAM]')
-        line6, = ax1.plot(self.x, self.adapted_1, 'r', linewidth=1, label='New [RAM]')
-        line7, = ax1.plot(self.x, self.thresh_C, 'b', linewidth=1, label='Threshold')
+        line4, = ax1.plot(self.x, self.adapted_close, '#881ee4', linestyle='-', linewidth=1.4, label='Saved [EPROM]')
+        line5, = ax1.plot(self.x, self.adapted_close, 'k-.', linewidth=0.6, label='Adapting [RAM]')
+        line6, = ax1.plot(self.x, self.adapted_close, 'r', linewidth=1, label='New [RAM]')
+        line7, = ax1.plot(self.x, self.thresh_close, 'b', linewidth=1, label='Threshold')
 
         ax1.plot(self.first_x, self.first_y_close, 'g', linewidth=1, label='Original [EPROM]')
         plt.legend(bbox_to_anchor=(1.01, 1), loc='upper left', borderaxespad=0.)
@@ -175,22 +175,23 @@ class Simulation:
     def set_threshold(self, percent):
         high_o = high_c = low_o = low_c = 0
         for i in range(len(self.y_open)):
-            high_o += self.thresh_O[i]
-            high_c += self.thresh_C[i]
-            low_o += self.saved[i]
-            low_c += self.saved_1[i]
-        a = abs((high_o / len(self.y_open)) - (low_o / len(self.y_open)))
-        b = abs((high_c / len(self.y_open)) - (low_c / len(self.y_open)))
-        threshold_1 = a * (percent/100)
-        threshold_2 = b * (percent/100)
+            high_o += self.thresh_open[i]
+            high_c += self.thresh_close[i]
+            low_o += self.saved_open[i]
+            low_c += self.saved_close[i]
+        average_difference_open = abs((high_o / len(self.y_open)) - (low_o / len(self.y_open)))
+        average_difference_close = abs((high_c / len(self.y_open)) - (low_c / len(self.y_open)))
+        threshold_open = average_difference_open * (percent/100)
+        threshold_close = average_difference_close * (percent/100)
+        print(f'{threshold_open}, {threshold_close}')
 
-        return threshold_1, threshold_2
+        return threshold_open, threshold_close
 
     def threshold_calculation(self, a):
         max_value = 0
         threshold = []
         if a == 0:
-            param = self.adapted
+            param = self.adapted_open
             for i in range(int(len(param) / 3)):
                 if param[i] > max_value:
                     max_value = param[i]
@@ -201,17 +202,16 @@ class Simulation:
                 else:
                     threshold.append(param[i] + 800)
         elif a == 1:
-            param = self.adapted_1
-            for i in range(int(len(param) / 3), len(param)):
+            param = self.adapted_close
+            for i in range(int(len(param) * 0.7), len(param)):
                 if param[i] > max_value:
                     max_value = param[i]
                     max_index = i
             for i in range(len(param)):
-                if i > max_index + 20:
+                if i > max_index - 20:
                     threshold.append(max_value + 1000)
                 else:
                     threshold.append(param[i] + 800)
-
         return threshold
 
     # This function needs to be overwritten in child class
