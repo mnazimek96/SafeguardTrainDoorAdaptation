@@ -7,7 +7,7 @@ import numpy as np
 class Sim5(Simulation.Simulation):
     def simulate(self, cycles, window):
         description = 'Slow rise and quick decrease'
-        fig, ax, line, line1, line2, line4, line5, line6 = self.prepare_sim(description)
+        fig, ax, line, line1, line2, line3, line4, line5, line6, line7 = self.prepare_sim(description)
         self.new = self.first_y_open
         self.new_c = self.first_y_close
 
@@ -15,10 +15,12 @@ class Sim5(Simulation.Simulation):
             # label = 'Cycle {0} | saved {2} times in cycle: {1}'.format((i + 1), self.saved_in_cycle, self.save)
             line.set_ydata(self.saved_open)
             line1.set_ydata(self.adapted_open)
-            line2.set_ydata(self.new)
+            line2.set_ydata(self.new_open)
+            line3.set_ydata(self.thresh_open)
             line4.set_ydata(self.saved_close)
             line5.set_ydata(self.adapted_close)
-            line6.set_ydata(self.new_c)
+            line6.set_ydata(self.new_close)
+            line7.set_ydata(self.thresh_close)
 
             if i < 200:
                 self.adapted_open = self.adapt(self.adapted_open, self.new)
