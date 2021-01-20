@@ -34,7 +34,7 @@ class Sim2(Simulation.Simulation):
                         self.saved_in_cycle_open.append(i)
                         self.thresh_open = self.threshold_calculation(0)
                         self.i = 0
-                    if difference > thresh_c and self.j > 3:  # 2.5%; 5 - current difference
+                    if difference_c > thresh_c and self.j > 3:  # 2.5%; 5 - current difference
                         self.saved_close = self.adapted_close
                         self.save_count_close += 1
                         self.saved_in_cycle_close.append(i)

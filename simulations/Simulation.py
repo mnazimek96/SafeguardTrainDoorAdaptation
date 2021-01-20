@@ -183,7 +183,7 @@ class Simulation:
         average_difference_close = abs((high_c / len(self.y_open)) - (low_c / len(self.y_open)))
         threshold_open = average_difference_open * (percent/100)
         threshold_close = average_difference_close * (percent/100)
-        print(f'{threshold_open}, {threshold_close}')
+        # print(f'{threshold_open}, {threshold_close}')
 
         return threshold_open, threshold_close
 
